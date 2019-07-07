@@ -1,0 +1,19 @@
+{
+  "name": "minhalista",
+  "version": "1.0.0",
+  "description": "Serverside de minhalista.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RudolfoSousa/minhalista.git"
+  },
+  "author": "Rudolfo Sousa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RudolfoSousa/minhalista/issues"
+  },
+  "homepage": "https://github.com/RudolfoSousa/minhalista#readme"
+}
