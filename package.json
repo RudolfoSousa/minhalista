@@ -4,7 +4,11 @@
   "description": "Serverside de minhalista.com",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "client": "cd client && npm start",
+    "server": "node index.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -15,5 +19,19 @@
   "bugs": {
     "url": "https://github.com/RudolfoSousa/minhalista/issues"
   },
-  "homepage": "https://github.com/RudolfoSousa/minhalista#readme"
+  "homepage": "https://github.com/RudolfoSousa/minhalista#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv-safe": "^6.1.0",
+    "express": "^4.17.1",
+    "helmet": "^3.18.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.6.3",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1",
+    "concurrently": "^3.5.0"
+  }
 }
