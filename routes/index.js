@@ -2,9 +2,11 @@ const configAuth = require('../config');
 var jwt = require('jsonwebtoken');
 const passport = require("passport");
 var mongoose = require('mongoose');
+var bcrypt = require('bcrypt');
 const User = mongoose.model("users");
 const List = mongoose.model("lists");
 const verifyJWT = require("../services/verifyAuth");
+const saltRounds = 10;
 const config = {
   // successRedirect: '/',
   // failureRedirect: '/login',
@@ -46,10 +48,12 @@ app.post('/cadastre', (req, res, done) => {
     if(user){
       res.send({failure: true})
     }else{
-      new User({username: req.body.username, password: req.body.password})
-        .save()
-        .then(user => done(null, user))
-        res.send({"success": true});
+      bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+        new User({username: req.body.username, password: hash})
+          .save()
+          .then(user => done(null, user))
+          res.send({"success": true});
+      })
     }
   })
 });

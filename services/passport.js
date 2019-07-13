@@ -1,4 +1,6 @@
 const passport = require("passport");
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
 var mongoose = require('mongoose');
 const User = mongoose.model("users");
 const LocalStrategy = require('passport-local').Strategy;
@@ -20,10 +22,14 @@ passport.use(new LocalStrategy(
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
       }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
+
+      bcrypt.compare(password, user.password, (err, result) => {
+        if(result == false){
+          return done(null, false, { message: 'Incorrect password.' });
+        }else{
+          return done(null, user);
+        }
+      })
     });
   }
 ));
