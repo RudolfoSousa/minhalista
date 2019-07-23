@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { signOutAction } from '../actions/authActions';
 import { connect } from 'react-redux';
 
+import Lista from "./Lista";
+
 class Dashboard extends Component {
   click = (values) => {
     this.props.signOutAction(this.props.history);
@@ -12,6 +14,7 @@ class Dashboard extends Component {
     return (
       <div>
           <p>Dash</p>
+          <Lista />
         <button onClick={(this.click)}>Logout</button>
       </div>
     );

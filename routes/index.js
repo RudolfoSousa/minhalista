@@ -30,14 +30,13 @@ app.post('/login',
     if (req.user) {
       var id = req.user.id;
       var token = jwt.sign({ id: id }, configAuth.secret, {
-        expiresIn: 300 // expires in 5min
+        expiresIn: 3000 // expires in 5min
       });
       res.json({
           success: true,
           message: 'Authentication successful!',
           token: token
         });
-      // res.send({ auth: true, token: token, id: id });
     }else{
       res.status(500).send({error: true});
     }
@@ -75,15 +74,16 @@ app.post('/lista', (req, res, done) => {
   })
 });
 
-app.get('/lista', (req, res, done) => {
-  List.find({}, (err, list) => {
+// Get all lists by user
+app.get('/lista',verifyJWT.checkToken, (req, res, done) => {
+  console.log(req.decoded.id)
+  List.find({userId: req.decoded.id}, (err, list) => {
     if(list){
       res.send(list)
-      console.log(req.decoded)
     }else{
       res.send(err)
     }
   })
-})
+});
 
 }
