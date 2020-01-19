@@ -13,6 +13,8 @@ import reducers from './reducers';
 import Login from './components/Login';
 import Cadastro from './components/Cadastro';
 import Dashboard from './components/Dashboard';
+import Menu from './components/Menu';
+import Createlist from './components/Createlist';
 
 import requireAuth from './components/require_auth';
 import noRequireAuth from './components/no_require_auth';
@@ -29,11 +31,13 @@ if(user) {
 ReactDOM.render(
     <Provider store={store}>
         <Router>
+            <Menu />
             <div>
                 <Route exact path="/" component={noRequireAuth(App)} />
                 <Route path="/login" component={noRequireAuth(Login)} />
-                <Route path="/dashboard" component={requireAuth(Dashboard)} />
                 <Route path="/cadastro" component={noRequireAuth(Cadastro)} />
+                <Route path="/dashboard" component={requireAuth(Dashboard)} />
+                <Route path="/lista" component={requireAuth(Createlist)} />
             </div>
         </Router>
     </Provider>, document.getElementById('root'));
