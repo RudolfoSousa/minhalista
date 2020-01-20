@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { signInAction } from '../actions/authActions';
 import { connect } from 'react-redux';
+import { Button, Container, Form } from 'react-bootstrap';
 
 class Login extends Component {
   submit = (values) => {
@@ -14,23 +15,34 @@ class Login extends Component {
     const { handleSubmit } = this.props;
     return (
       <div className="form">
-        <div className="container">
+        <Container>
           <h2>Sign In</h2>
-          <form onSubmit={ handleSubmit(this.submit) }>
-            <Field name="username"
+          <Form onSubmit={ handleSubmit(this.submit) }>
+            <Form.Group controlId="formBasicEmail">
+                <Form.Label>Username</Form.Label>
+                <Field name="username"
                   component="input"
                   type="text"
                   placeholder="User" 
-            />
-            <Field name="password" 
+                />
+                <Form.Text className="text-muted">
+                We'll never share your email with anyone else.
+                </Form.Text>
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Field name="password" 
                   component="input"
                   type="password" 
                   placeholder="Password" 
-            />
-            <button type="submit" className="blue">Sign In</button>
+                />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+                Submit
+            </Button>
             { loading ? <p>Loading...</p> : ""}
-          </form>
-        </div>
+          </Form>
+        </Container>
       </div>
     );
   }
