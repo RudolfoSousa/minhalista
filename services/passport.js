@@ -1,9 +1,11 @@
 const passport = require("passport");
-var bcrypt = require('bcrypt');
+const { googleClientID, googleSecretClient } = require("../config");
+const bcrypt = require('bcrypt');
 const saltRounds = 10;
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const User = mongoose.model("users");
 const LocalStrategy = require('passport-local').Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -32,4 +34,19 @@ passport.use(new LocalStrategy(
       })
     });
   }
+));
+
+// Google Auth
+passport.use(new GoogleStrategy({
+  clientID: googleClientID,
+  clientSecret: googleSecretClient,
+  callbackURL: "http://localhost:8000/auth/google/callback"
+},
+function(accessToken, refreshToken, profile, done) {
+  console.log(profile)
+    //  User.findOrCreate({ googleId: profile.id }, function (err, user) {
+    //    return done(err, user);
+    //  });
+    done();
+}
 ));
