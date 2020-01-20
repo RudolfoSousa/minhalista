@@ -1,12 +1,23 @@
 import axios from 'axios';
-// import qs from 'qs';
+import qs from 'qs';
+import assert from 'assert';
 
 export const FETCHING_LIST = 'fetching_list';
+export const SENDING_LIST_BEGIN = 'sending_list_begin';
+export const SENDING_LIST_SUCCESS = 'sending_list_success';
 export const FETCH_LIST = 'fetch_list';
 export const UNFETCHING_LIST = 'unfetching_list';
 
 export const fecthinglist = () => ({
     type: FETCHING_LIST
+});
+
+export const sendinglist = () => ({
+  type: SENDING_LIST_BEGIN
+});
+
+export const sendedlist = () => ({
+  type: SENDING_LIST_SUCCESS
 });
 
 export const fetchlist = lista => ({
@@ -19,12 +30,12 @@ export const unfetchinglist = error => ({
     payload: { error}
 });
 
-const URL = 'http://localhost:5000';
+const URL = 'http://localhost:8000';
 
 export function getList(user) {
-    return dispatch => {
+    return async dispatch => {
       dispatch(fecthinglist());
-      return axios.get(`${URL}/lista`, {headers:{
+      return await axios.get(`${URL}/lista`, {headers:{
         'x-access-token': user,
         'Content-Type': 'application/x-www-form-urlencoded'
       }})
@@ -37,59 +48,22 @@ export function getList(user) {
     };
   }
 
-// export function getList(user){
-    // axios.get(`${URL}/lista`, {
-    //     headers: {
-    //         'x-access-token': user,
-    //         'Content-Type': 'application/x-www-form-urlencoded'
-    //     }
-    // })
-    // .then((res) => {
-    //     console.log(res.data);
-    //     fetchlist(res.data);
-    // })
-    // .catch((err) => {
-    //     console.log(err)
-    // })
-    // return(dispatch) => {
-    //     dispatch({type: FETCHING_LIST});
-    //     console.log(user)
-    //     // axios.get(`${URL}/lista`, {
-    //     //     headers: {
-    //     //         'x-access-token': user,
-    //     //         'Content-Type': 'application/x-www-form-urlencoded'
-    //     //     }
-    //     // })
-    //     // .then((res) => {
-    //     //     console.log(user)
-    //     //     console.log(res);
-    //     // })
-    //     // .catch((err) => {
-    //     //     console.log(err)
-    //     // })
-    // }
-// }
-
-// export function getList(user) {
-
-//   return (dispatch) => {
-//     dispatch({ type: FETCHING_LIST });
-//     console.log('sm');
-//     try {
-//       axios.post(`${URL}/lista`,{headers: {
-//         'x-access-token': user,
-//         'Content-Type': 'application/x-www-form-urlencoded'
-//     }})
-//         .then((res) => {
-//           dispatch({ type: FETCH_LIST });
-//           console.log(res)
-//         })
-//     } catch(error) {
-//       console.log(error)
-//       dispatch({
-//         type: UNFETCHING_LIST,
-//         payload: 'Invalid email or password'
-//       });
-//     }
-//   };
-// };
+  export function sendList({listname, produtos}, user){
+    return dispatch => {
+      dispatch(sendinglist());
+      var data = {
+        listName: listname,
+        products: produtos
+      } 
+      return axios.post(`${URL}/lista`, data, {headers:{
+        'x-access-token': user,
+        'Content-Type': 'application/json'
+      }})
+      .then((res) => {
+        dispatch(sendedlist());
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
+  }

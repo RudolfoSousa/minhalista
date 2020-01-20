@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { signInAction } from '../actions/authActions';
+import { signUpAction } from '../actions/authActions';
 import { connect } from 'react-redux';
+
+import { Button, Container, Form } from 'react-bootstrap';
 
 class Cadastro extends Component {
   submit = (values) => {
-    this.props.signInAction(values, this.props.history);
+    this.props.signUpAction(values, this.props.history);
   }
 
   render() {
@@ -14,23 +16,54 @@ class Cadastro extends Component {
     const { handleSubmit } = this.props;
     return (
       <div className="form">
-        <div className="container">
+        <Container>
           <h2>Sign Up</h2>
-          <form onSubmit={ handleSubmit(this.submit) }>
-            <Field name="username"
+          <Form onSubmit={ handleSubmit(this.submit) }>
+            <Form.Group controlId="formBasicEmail">
+                <Form.Label>Email address</Form.Label>
+                <Field name="username"
                   component="input"
                   type="text"
                   placeholder="User" 
-            />
-            <Field name="password" 
+                />
+                <Form.Text className="text-muted">
+                We'll never share your email with anyone else.
+                </Form.Text>
+            </Form.Group>
+
+            <Form.Group controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Field name="password" 
                   component="input"
                   type="password" 
                   placeholder="Password" 
-            />
-            <button type="submit" className="blue">Sign Up</button>
-            { loading ? <p>Loading...</p> : ""}
-          </form>
-        </div>
+                />
+            </Form.Group>
+
+            <Form.Group controlId="formBasicPassword">
+                <Form.Label>Confirm Password</Form.Label>
+                <Field name="password_confirm" 
+                  component="input"
+                  type="password" 
+                  placeholder="Confirm Password" 
+                />
+            </Form.Group>
+
+            <Form.Group controlId="formBasicPassword">
+                <Form.Label>First Name</Form.Label>
+                <Field name="name" 
+                  component="input"
+                  type="text" 
+                  placeholder="Name" 
+                />
+            </Form.Group>
+
+                <Button variant="primary" type="submit">
+                    Submit
+                </Button>
+                { loading ? <p>Loading...</p> : ""}
+            </Form>
+        </Container>
       </div>
     );
   }
@@ -40,6 +73,6 @@ function mapStateToProps(state) {
     return { auth: state.auth};
   }
   const reduxFormSignin = reduxForm({
-    form: 'signin'
+    form: 'signup'
   })(Cadastro);
-  export default connect(mapStateToProps, {signInAction})(reduxFormSignin);
+  export default connect(mapStateToProps, {signUpAction})(reduxFormSignin);
