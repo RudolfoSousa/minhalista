@@ -1,4 +1,5 @@
-const configAuth = require('../config');
+require('dotenv/config');
+const secret = process.env.secret;
 var jwt = require('jsonwebtoken');
 const passport = require("passport");
 var mongoose = require('mongoose');
@@ -22,7 +23,7 @@ app.post('/login',
     if (req.user) {
       var id = req.user.id;
       var name = req.user.name;
-      var token = jwt.sign({ id: id }, configAuth.secret, {
+      var token = jwt.sign({ id: id }, secret, {
         expiresIn: expiresin
       });
       User.findByIdAndUpdate({_id: id}, {token: token}, false)
@@ -59,7 +60,7 @@ app.post('/cadastre', (req, res, done) => {
       bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
         const newUser = new User({username: req.body.username, password: hash, name: req.body.name, role: false});
         const {userID} = newUser;  
-        const token = jwt.sign({ id: userID }, configAuth.secret, {
+        const token = jwt.sign({ id: userID }, secret, {
               expiresIn: expiresin
             });
             newUser.token = token;
