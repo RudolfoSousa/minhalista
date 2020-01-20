@@ -1,11 +1,15 @@
 const passport = require("passport");
-const { googleClientID, googleSecretClient } = require("../config");
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+// const saltRounds = 10;
 const mongoose = require('mongoose');
 const User = mongoose.model("users");
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
+require('dotenv/config');
+const googleClientID = process.env.GOOGLECLIENTID;
+const googleSecretClient = process.env.GOOGLESECRETCLIENTKEY;
+const callbackURL = process.env.CALLBACKURL;
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -40,7 +44,7 @@ passport.use(new LocalStrategy(
 passport.use(new GoogleStrategy({
   clientID: googleClientID,
   clientSecret: googleSecretClient,
-  callbackURL: "http://localhost:8000/auth/google/callback"
+  callbackURL: callbackURL
 },
 function(accessToken, refreshToken, profile, done) {
   console.log(profile)

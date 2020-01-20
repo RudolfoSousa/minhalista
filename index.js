@@ -4,13 +4,17 @@ const passport = require("passport");
 const helmet = require('helmet');
 const app = express();
 const cors = require('cors')
+
+require('dotenv/config');
+const dbUrl = process.env.DBURL;
+
 require ("./models/User");
 require ("./models/Orders");
 require ("./services/passport.js");
-var mongoose = require('mongoose');
-var keys = require("./config");
+const mongoose = require('mongoose');
 
-mongoose.connect(keys.dbURL, {
+
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useFindAndModify: false ,
   useCreateIndex: true
