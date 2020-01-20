@@ -8,7 +8,6 @@
     "start": "nodemon index.js",
     "client": "cd client && npm start",
     "server": "nodemon index.js",
-    "build": "netlify-lambda build express",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "prod": "node index.js"
   },
@@ -32,7 +31,6 @@
     "helmet": "^3.21.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.5",
-    "netlify-lambda": "^1.6.3",
     "passport": "^0.4.0",
     "passport-google-oauth": "^2.0.0",
     "passport-local": "^1.0.0"
