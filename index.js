@@ -35,7 +35,7 @@ app.options('*', cors());
 
 require('./routes/index.js')(app);
 
-const PORT = process.env.PORT | 8000;
+const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
   console.log("App run on port: " + PORT);
