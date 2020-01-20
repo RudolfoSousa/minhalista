@@ -41,6 +41,16 @@ app.post('/login',
     }
   });
 
+// Google auth
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+app.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/login');
+  });
+
 app.post('/cadastre', (req, res, done) => {
   User.findOne({username: req.body.username}, (err, user) => {
     if(user){
@@ -77,15 +87,5 @@ app.post('/cadastre', (req, res, done) => {
 app.post('/order', verifyJWT.checkToken, OrderController.store);
 app.get('/order', verifyJWT.checkToken, OrderController.list);
 
-// // Get all lists by user
-// app.get('/lista',verifyJWT.checkToken, (req, res, done) => {
-//   // console.log(req.decoded.id)
-//   List.find({userId: req.decoded.id}, (err, list) => {
-//     if(list){
-//       res.send(list)
-//     }else{
-//       res.send(err)
-//     }
-//   })
-// });
+
 }
