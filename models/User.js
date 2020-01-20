@@ -1,13 +1,17 @@
 var mongoose = require('mongoose');
 
-var userSchema = new mongoose.Schema({
+var UserSchema = new mongoose.Schema({
   username: String,
   password: String,
-  name: String
+  name: String,
+  email: String,
+  role: Boolean,
+  token: String,
+  dateCreate: { type: Date, default: Date.now },
 });
 
-userSchema.methods.validPassword = function( password ) {
+UserSchema.methods.validPassword = function( password ) {
     return ( this.password === password );
 };
 
-mongoose.model('users', userSchema);
+mongoose.model('users', UserSchema);

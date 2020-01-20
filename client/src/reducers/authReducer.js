@@ -1,5 +1,9 @@
 import { AUTHENTICATING, AUTHENTICATED, UNAUTHENTICATED, AUTHENTICATION_ERROR } from '../actions/authActions';
-export default function(state={}, action) {
+const initialState = {
+  authenticated: false,
+  loading: false
+}
+export default function(state=initialState, action) {
   switch(action.type) {
     case AUTHENTICATING:
       return {...state, authenticated: false, loading: true}
